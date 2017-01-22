@@ -13,6 +13,12 @@ namespace PoetryBot4200
 {
     public partial class MainMenu : Form
     {
+        //TODO: Add striplist
+        //TODO: Use striplist
+        //TODO: Return list of word from DEstination that don't appear in Source
+        //TODO: Striplist should contain "" null or whitespace kind of things
+
+
         public TextComparitor TextComparitor { get; set; }
         public MainMenu()
         {
@@ -39,7 +45,7 @@ namespace PoetryBot4200
         {
             string fileName;
             var s = GetTextFile(out fileName);
-            if (s == string.Empty) return;
+            if (string.IsNullOrWhiteSpace(s)) return;
             switch (listToWhichToAdd.ToLowerInvariant())
             {
                 case "source":
@@ -136,6 +142,15 @@ namespace PoetryBot4200
             while (s.Contains("\n"))
             {
                 s = s.Replace("\n", " ");
+            }
+
+            while (s.Contains(")"))
+            {
+                s = s.Replace("", " ");
+            }
+            while (s.Contains("("))
+            {
+                s = s.Replace("", " ");
             }
             return s;
         }
