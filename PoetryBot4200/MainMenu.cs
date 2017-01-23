@@ -1,29 +1,88 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PoetryBot4200
 {
     public partial class MainMenu : Form
     {
-        //TODO: Add striplist
-        //TODO: Use striplist
-        //TODO: Return list of word from DEstination that don't appear in Source
-        //TODO: Striplist should contain "" null or whitespace kind of things
-
-
+        //TODO: Add and populate common word list.
+        //TODO: Sort output by word occurrence
+        //TODO: Allow random output of words
+        //TODO: Allow spreadsheet export of words
         public TextComparitor TextComparitor { get; set; }
         public MainMenu()
         {
             InitializeComponent();
+            comboOutputType.DataSource = AvailableOutputs;
+            comboOutputType.SelectedIndex = 0;
             Reset();
+        }
+
+        private static readonly List<string> AvailableOutputs = new List<string>
+        {
+             "Words in Destination not in Source",
+             "Words in Source not in Destination"
+        };
+
+        //TODO: Modify to allow compound words
+        private static readonly List<string> ExceptionList = new List<string>
+        {
+            "'",
+            "-",//Need to handle this differently, as i want to maintain compound words
+            " "
+        };
+
+        private void ShowOutput(string s, bool ignoreCase)
+        {
+            switch (s)
+            {
+                case "Words in Destination not in Source":
+                    txtOutput.Text = OutputDestinationNotInSource(ignoreCase);
+                    break;
+                case "Words in Source not in Destination":
+                    txtOutput.Text = OutputSourceNotInDestination(ignoreCase);
+                    break;
+            }
+        }
+
+        private string OutputSourceNotInDestination(bool ignoreCase)
+        {
+            return OutputANotInB(TextComparitor.SourceWords, TextComparitor.DestinationWords, ignoreCase);
+        }
+
+        private string OutputDestinationNotInSource(bool ignoreCase)
+        {
+            return OutputANotInB(TextComparitor.DestinationWords, TextComparitor.SourceWords, ignoreCase);
+        }
+        private static string OutputANotInB(IEnumerable<string> a, ICollection<string> b, bool ignoreCase)
+        {
+            var sb = new StringBuilder();
+
+            foreach (var word in a)
+            {
+                if (ignoreCase)
+                {
+                    var _in = b.FirstOrDefault(s => s.Contains(word, StringComparison.OrdinalIgnoreCase));
+                    if (_in == null)
+                    {
+                        sb.AppendLine(word);
+                    }
+                }
+                else
+                {
+                    if (!b.Contains(word))
+                    {
+                        sb.AppendLine(word);
+                    }
+                }
+
+            }
+            return sb.ToString();
         }
 
         private void Reset()
@@ -59,7 +118,7 @@ namespace PoetryBot4200
             }
             AddToSourceWords(s, listToWhichToAdd);
             RefreshCounts(listToWhichToAdd);
-            MessageBox.Show($@"{fileName} added to {listToWhichToAdd} Texts.");
+            //MessageBox.Show($@"{fileName} added to {listToWhichToAdd} Texts."); <--This is annoying.
         }
 
         private void RefreshCounts(string listToWhichToAdd)
@@ -82,6 +141,10 @@ namespace PoetryBot4200
             var list = s.Split();
             foreach (var x in list)
             {
+                if (string.IsNullOrWhiteSpace(x))
+                {
+                    continue;
+                }
                 switch (listToWhichToAdd)
                 {
                     case "source":
@@ -125,34 +188,22 @@ namespace PoetryBot4200
 
         private static string CleanText(string s)
         {
-            while (s.Contains("  "))
+            foreach (var c in s)
             {
-                s = s.Replace("  ", " ");
-            }
-            while (s.Contains("\r\n"))
-            {
-                s = s.Replace("\r\n", " ");
-            }
-
-            while (s.Contains("\r"))
-            {
-                s = s.Replace("\r", " ");
-            }
-
-            while (s.Contains("\n"))
-            {
-                s = s.Replace("\n", " ");
-            }
-
-            while (s.Contains(")"))
-            {
-                s = s.Replace("", " ");
-            }
-            while (s.Contains("("))
-            {
-                s = s.Replace("", " ");
+                if (!char.IsLetter(c) && !ExceptionList.Contains(c.ToString()))
+                {
+                    while (s.Contains(c))
+                    {
+                        s = s.Replace(c.ToString(), " ");
+                    }
+                }
             }
             return s;
+        }
+
+        private void btnOutputGet_Click(object sender, EventArgs e)
+        {
+            ShowOutput(comboOutputType.SelectedItem.ToString(), chkIgnoreCase.Checked);
         }
 
     }
