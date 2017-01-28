@@ -34,10 +34,12 @@
             this.btnGetFile_Destination = new System.Windows.Forms.Button();
             this.txtSourceStats = new System.Windows.Forms.TextBox();
             this.txtDestinationStats = new System.Windows.Forms.TextBox();
-            this.txtOutput = new System.Windows.Forms.TextBox();
             this.comboOutputType = new System.Windows.Forms.ComboBox();
             this.btnOutputGet = new System.Windows.Forms.Button();
             this.chkIgnoreCase = new System.Windows.Forms.CheckBox();
+            this.testbox = new System.Windows.Forms.TextBox();
+            this.testbutton = new System.Windows.Forms.Button();
+            this.txtOutput = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // btnGetFile_Source
@@ -92,15 +94,6 @@
             this.txtDestinationStats.Size = new System.Drawing.Size(193, 20);
             this.txtDestinationStats.TabIndex = 5;
             // 
-            // txtOutput
-            // 
-            this.txtOutput.Location = new System.Drawing.Point(12, 223);
-            this.txtOutput.Multiline = true;
-            this.txtOutput.Name = "txtOutput";
-            this.txtOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtOutput.Size = new System.Drawing.Size(323, 144);
-            this.txtOutput.TabIndex = 6;
-            // 
             // comboOutputType
             // 
             this.comboOutputType.FormattingEnabled = true;
@@ -129,15 +122,42 @@
             this.chkIgnoreCase.Text = "Ignore Case";
             this.chkIgnoreCase.UseVisualStyleBackColor = true;
             // 
+            // testbox
+            // 
+            this.testbox.Location = new System.Drawing.Point(436, 37);
+            this.testbox.Name = "testbox";
+            this.testbox.Size = new System.Drawing.Size(100, 20);
+            this.testbox.TabIndex = 10;
+            // 
+            // testbutton
+            // 
+            this.testbutton.Location = new System.Drawing.Point(542, 35);
+            this.testbutton.Name = "testbutton";
+            this.testbutton.Size = new System.Drawing.Size(75, 23);
+            this.testbutton.TabIndex = 11;
+            this.testbutton.Text = "button1";
+            this.testbutton.UseVisualStyleBackColor = true;
+            this.testbutton.Click += new System.EventHandler(this.testbutton_Click);
+            // 
+            // txtOutput
+            // 
+            this.txtOutput.FormattingEnabled = true;
+            this.txtOutput.Location = new System.Drawing.Point(16, 201);
+            this.txtOutput.Name = "txtOutput";
+            this.txtOutput.Size = new System.Drawing.Size(340, 134);
+            this.txtOutput.TabIndex = 12;
+            // 
             // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(724, 396);
+            this.Controls.Add(this.txtOutput);
+            this.Controls.Add(this.testbutton);
+            this.Controls.Add(this.testbox);
             this.Controls.Add(this.chkIgnoreCase);
             this.Controls.Add(this.btnOutputGet);
             this.Controls.Add(this.comboOutputType);
-            this.Controls.Add(this.txtOutput);
             this.Controls.Add(this.txtDestinationStats);
             this.Controls.Add(this.txtSourceStats);
             this.Controls.Add(this.label2);
@@ -159,10 +179,12 @@
         private System.Windows.Forms.Button btnGetFile_Destination;
         private System.Windows.Forms.TextBox txtSourceStats;
         private System.Windows.Forms.TextBox txtDestinationStats;
-        private System.Windows.Forms.TextBox txtOutput;
         private System.Windows.Forms.ComboBox comboOutputType;
         private System.Windows.Forms.Button btnOutputGet;
         private System.Windows.Forms.CheckBox chkIgnoreCase;
+        private System.Windows.Forms.TextBox testbox;
+        private System.Windows.Forms.Button testbutton;
+        private System.Windows.Forms.ListBox txtOutput;
     }
 }
 

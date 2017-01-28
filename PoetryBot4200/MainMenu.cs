@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using PoetryBot4200.Rhymelib;
 
 namespace PoetryBot4200
 {
@@ -42,26 +43,27 @@ namespace PoetryBot4200
             switch (s)
             {
                 case "Words in Destination not in Source":
-                    txtOutput.Text = OutputDestinationNotInSource(ignoreCase);
+                    txtOutput.DataSource = OutputDestinationNotInSource(ignoreCase);
                     break;
                 case "Words in Source not in Destination":
-                    txtOutput.Text = OutputSourceNotInDestination(ignoreCase);
+                    txtOutput.DataSource = OutputSourceNotInDestination(ignoreCase);
                     break;
             }
         }
 
-        private string OutputSourceNotInDestination(bool ignoreCase)
+        private List<string> OutputSourceNotInDestination(bool ignoreCase)
         {
             return OutputANotInB(TextComparitor.SourceWords, TextComparitor.DestinationWords, ignoreCase);
         }
 
-        private string OutputDestinationNotInSource(bool ignoreCase)
+        private List<string> OutputDestinationNotInSource(bool ignoreCase)
         {
             return OutputANotInB(TextComparitor.DestinationWords, TextComparitor.SourceWords, ignoreCase);
         }
-        private static string OutputANotInB(IEnumerable<string> a, ICollection<string> b, bool ignoreCase)
+       
+        private static List<string> OutputANotInB(IEnumerable<string> a, ICollection<string> b, bool ignoreCase)
         {
-            var sb = new StringBuilder();
+            var list = new List<string>();
 
             foreach (var word in a)
             {
@@ -70,19 +72,19 @@ namespace PoetryBot4200
                     var _in = b.FirstOrDefault(s => s.Contains(word, StringComparison.OrdinalIgnoreCase));
                     if (_in == null)
                     {
-                        sb.AppendLine(word);
+                        list.Add(word);
                     }
                 }
                 else
                 {
                     if (!b.Contains(word))
                     {
-                        sb.AppendLine(word);
+                        list.Add(word);
                     }
                 }
 
             }
-            return sb.ToString();
+            return list;
         }
 
         private void Reset()
@@ -206,5 +208,9 @@ namespace PoetryBot4200
             ShowOutput(comboOutputType.SelectedItem.ToString(), chkIgnoreCase.Checked);
         }
 
+        private void testbutton_Click(object sender, EventArgs e)
+        {
+            RhymingWords.GetRhymes(testbox.Text);
+        }
     }
 }

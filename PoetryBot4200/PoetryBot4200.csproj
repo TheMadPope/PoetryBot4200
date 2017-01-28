@@ -55,6 +55,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rhymelib\RhymedWord.cs" />
+    <Compile Include="Rhymelib\RhymingWord.cs" />
     <Compile Include="TextComparitor.cs" />
     <EmbeddedResource Include="MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>
